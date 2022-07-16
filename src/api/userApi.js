@@ -7,7 +7,7 @@ import request from '../utils/request'
  */
 const login = (data) => {
   return request({
-    url: '/admin/login',
+    url: `/admin/login?username=${data.username}&password=${data.password}`,
     method: 'POST',
     data
   })
