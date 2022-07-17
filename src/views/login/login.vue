@@ -90,6 +90,12 @@ export default {
         if (!token) return
         this.loginForm.token = token.data.data.token
         this.$store.dispatch('user/login', this.loginForm)
+        this.$notify({
+          title: '提示',
+          message: '登录成功',
+          type: 'success'
+        })
+        await this.$router.push('/')
       } catch (err) {
         console.log(err)
       }

@@ -1,14 +1,24 @@
 import userApi from '@/api/userApi'
+import { setItem, getItem } from '@/utils/storage'
 export default {
   // 开启命名空间
   namespaced: true,
-  state: {},
+  state: {
+    token: getItem('token') || []
+  },
   getters: {},
   mutations: {
-    login({ commit }, params) {
-      const res = userApi.login(params)
-      console.log(res)
+    SET_LOGIN(state, token) {
+      state.token = token
+      // console.log(token)
+      setItem('token', token)
     }
   },
-  actions: {}
+  actions: {
+    async login({ commit }, params) {
+      const res = await userApi.login(params)
+      console.log(res)
+      commit('SET_LOGIN', res.data.data.token)
+    }
+  }
 }
