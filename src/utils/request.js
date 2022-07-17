@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import store from '@/store'
 // Set config defaults when creating the instance
 const request = axios.create({
   // baseURL: 'http://kg.9yuecloud.com/dev-api',
@@ -9,6 +9,10 @@ const request = axios.create({
 // Add a request interceptor
 request.interceptors.request.use(
   function (config) {
+    const token = store.getters.token
+    if (token) {
+      config.headers.token = token
+    }
     // Do something before request is sent
     return config
   },

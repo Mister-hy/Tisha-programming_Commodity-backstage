@@ -22,7 +22,9 @@
                 v-model.trim="loginForm.username"
                 autocomplete="off"
                 placeholder="请输入用户名"
-              ></el-input>
+                prefix-icon="el-icon-user"
+              >
+              </el-input>
             </el-form-item>
             <el-form-item prop="password">
               <el-input
@@ -30,11 +32,16 @@
                 v-model.trim="loginForm.password"
                 autocomplete="off"
                 placeholder="请输入密码"
+                prefix-icon="el-icon-lock"
+                show-password
+                clearable
               ></el-input>
             </el-form-item>
             <el-button
               type="primary"
               class="loginSave"
+              v-loading="loadingStatus"
+               element-loading-spinner="el-icon-loading"
               @click="handlerRulesForm()"
               >登录</el-button
             >
@@ -67,7 +74,9 @@ export default {
       rules: {
         username: { required: true, message: '请输入用户名', trigger: 'blur' },
         password: [{ validator: validatePass, trigger: 'blur' }]
-      }
+      },
+      // loading加载状态
+      loadingStatus: true
     }
   },
   created() {},
@@ -95,9 +104,13 @@ export default {
           message: '登录成功',
           type: 'success'
         })
+        this.loadingStatus = true
+        // console.log(this.loadingStatus)
         await this.$router.push('/')
       } catch (err) {
         console.log(err)
+      } finally {
+        this.loadingStatus = false
       }
     }
   },
@@ -124,6 +137,7 @@ export default {
     // border: 1px solid red;
     padding: 50px;
     box-sizing: border-box;
+    position: relative;
     .el-form-item__error {
       margin-left: 90px;
     }

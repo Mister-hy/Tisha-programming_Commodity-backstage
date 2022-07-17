@@ -6,7 +6,6 @@ export default {
   state: {
     token: getItem('token') || []
   },
-  getters: {},
   mutations: {
     SET_LOGIN(state, token) {
       state.token = token
@@ -17,7 +16,7 @@ export default {
   actions: {
     async login({ commit }, params) {
       const res = await userApi.login(params)
-      console.log(res)
+      // console.log(res)
       commit('SET_LOGIN', res.data.data.token)
     }
   }

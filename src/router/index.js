@@ -1,8 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import access from './modules/access'
+import category from './modules/category'
+import coupon from './modules/coupon'
+import level from './modules/level'
+import manager from './modules/manager'
+import role from './modules/role'
+import skus from './modules/skus'
+import user from './modules/user'
 Vue.use(VueRouter)
 
-const routes = [
+const publicRoutes = [
   {
     path: '/login',
     name: 'login',
@@ -16,9 +24,18 @@ const routes = [
       import(/* webpackChunkName: "about" */ '../layout/index.vue')
   }
 ]
-
+const privateRouter = [
+  access,
+  category,
+  coupon,
+  level,
+  manager,
+  role,
+  skus,
+  user
+]
 const router = new VueRouter({
-  routes
+  routes: [...publicRoutes, ...privateRouter]
 })
 
 export default router
