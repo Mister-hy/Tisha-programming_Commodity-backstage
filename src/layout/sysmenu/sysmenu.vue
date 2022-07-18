@@ -27,14 +27,16 @@ export default {
   data() {
     return {
       routerList: [],
-      token: ''
+      token: '',
+      userInfo: []
     }
   },
   created() {
     this.setmenuList()
-    console.log(this.$router.getRoutes())
+    // console.log(this.$router.getRoutes())
   },
   computed: {
+    // 路由跳转
     activePath() {
       return this.$route.path
     },
@@ -50,7 +52,10 @@ export default {
       const res = await userApi.router(this.token)
       // console.log(res)
       this.routerList = res.data.data.menus
-      console.log(this.routerList)
+      // console.log(this.routerList)
+      this.userInfo = res.data.data
+      // console.log(this.userInfo)
+      this.$store.dispatch('user/userInfo', this.userInfo)
     }
   },
   components: { menuprops }

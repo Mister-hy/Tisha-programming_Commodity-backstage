@@ -24,7 +24,29 @@ const router = (params) => {
     params
   })
 }
+/**
+ * 获取用户信息接口
+ * @returns {AxiosPromise}
+ */
+const getUserInfo = () => {
+  return request({
+    url: '/admin/getinfo',
+    method: 'POST'
+  })
+}
+/**
+ * 退出登录接口
+ * @returns {AxiosPromise}
+ */
+const logout = () => {
+  return request({
+    url: '/admin/logout',
+    method: 'POST'
+  })
+}
 export default {
   login,
-  router
+  router,
+  getUserInfo,
+  logout
 }

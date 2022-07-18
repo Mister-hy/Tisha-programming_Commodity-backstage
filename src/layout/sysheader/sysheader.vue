@@ -9,9 +9,32 @@
         size="nimi"
         @click="CollapseStatus"
         :icon="
-          $store.getters.isCollapse ? 'el-icon-s-fold' : 'el-icon-s-unfold'
+          $store.getters.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'
         "
       ></el-button>
+    </div>
+    <div class="right-container">
+      <el-tooltip effect="dark" content="全屏" placement="bottom">
+        <i class="el-icon-full-screen"></i>
+      </el-tooltip>
+      <!-- 头像 -->
+      <el-avatar
+        class="avatar"
+        v-if="$store.getters.userinfo"
+        :src="
+          $store.getters.userinfo.avatar ? $store.getters.userInfo.avatar : ''
+        "
+      ></el-avatar>
+      <el-dropdown @command="handleCommand">
+        <span class="el-dropdown-link hand">
+          {{ $store.getters.userinfo.username || '' }}
+          <i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="editpassword">修改密码</el-dropdown-item>
+          <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -20,10 +43,33 @@
 export default {
   name: 'sysheader',
   data() {
-    return {}
+    return {
+      list: []
+    }
   },
+  computed: {},
   mounted() {},
   methods: {
+    // 退出登录
+    async handleLogout() {
+      const res = await this.$store.dispatch('user/logout')
+      // console.log(res)
+      if (res) {
+        this.$notify.success({
+          title: '提示',
+          message: '您已成功退出登录'
+        })
+        this.$router.push('/login')
+      }
+    },
+    handleCommand(command) {
+      switch (command) {
+        case 'logout': {
+          this.handleLogout()
+        }
+      }
+    },
+    // 折叠
     CollapseStatus() {
       this.$store.dispatch('menu/setCollapse')
     }
@@ -74,8 +120,23 @@ export default {
     display: flex;
     align-items: center;
     .el-button {
-      font-size: 25px;
+      cursor: pointer;
+      font-size: 16px;
       color: #fff;
+    }
+  }
+  .right-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-left: auto;
+    ::v-deep .el-icon-full-screen {
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .avatar {
+      width: 30px;
+      height: 30px;
     }
   }
 }

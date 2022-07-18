@@ -1,6 +1,7 @@
 export default {
   namespaced: true,
   state: {
+    // 折叠
     collapse: false
   },
   mutations: {
