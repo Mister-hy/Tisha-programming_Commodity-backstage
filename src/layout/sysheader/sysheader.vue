@@ -3,6 +3,16 @@
     <div class="logo">
       <i class="el-icon-eleme"> 积云编程 </i>
     </div>
+    <div class="left-container">
+      <el-button
+        type="text"
+        size="nimi"
+        @click="CollapseStatus"
+        :icon="
+          $store.getters.isCollapse ? 'el-icon-s-fold' : 'el-icon-s-unfold'
+        "
+      ></el-button>
+    </div>
   </div>
 </template>
 
@@ -13,7 +23,11 @@ export default {
     return {}
   },
   mounted() {},
-  methods: {},
+  methods: {
+    CollapseStatus() {
+      this.$store.dispatch('menu/setCollapse')
+    }
+  },
   components: {}
 }
 </script>
@@ -55,6 +69,14 @@ export default {
     font-weight: 100;
     font-size: 20px;
     line-height: 60px;
+  }
+  .left-container {
+    display: flex;
+    align-items: center;
+    .el-button {
+      font-size: 25px;
+      color: #fff;
+    }
   }
 }
 </style>

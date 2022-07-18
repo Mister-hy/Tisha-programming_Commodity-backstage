@@ -1,5 +1,16 @@
 <template>
-  <el-menu default-active="2" class="el-menu-vertical-demo">
+  <el-menu
+    :default-active="activePath"
+    class="el-menu-vertical-demo"
+    text-color="#000"
+    background-color="#fff"
+    active-text-color="#4339c8"
+    :collapse="isCollapse"
+    :collapse-transition="false"
+    :style="{ width: $store.getters.isCollapse ? '64px' : '200px' }"
+    unique-opened
+    router
+  >
     <menuprops
       v-for="(item, index) in routerList"
       :key="index"
@@ -22,6 +33,14 @@ export default {
   created() {
     this.setmenuList()
     console.log(this.$router.getRoutes())
+  },
+  computed: {
+    activePath() {
+      return this.$route.path
+    },
+    isCollapse() {
+      return this.$store.getters.isCollapse
+    }
   },
   mounted() {},
   methods: {
