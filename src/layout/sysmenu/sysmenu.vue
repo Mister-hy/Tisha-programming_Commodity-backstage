@@ -33,7 +33,8 @@ export default {
   },
   created() {
     this.setmenuList()
-    // console.log(this.$router.getRoutes())
+    console.log(this.$router.options.routes)
+    console.log(this.$router.getRoutes())
   },
   computed: {
     // 路由跳转

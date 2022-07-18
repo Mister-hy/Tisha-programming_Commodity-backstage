@@ -15,6 +15,20 @@ export default {
       title: '管理员管理',
       icon: '"coordinate"',
       component: () => import('../../views/manager/manager.vue')
+    },
+    {
+      path: '/access/list',
+      // name:'',
+      title: '权限管理',
+      icon: 'connection',
+      component: () => import('../../views/manager/access.vue')
+    },
+    {
+      path: '/role/list',
+      // name:'',
+      title: '角色管理',
+      icon: 'histogram',
+      component: () => import('../../views/manager/role.vue')
     }
   ]
 }
