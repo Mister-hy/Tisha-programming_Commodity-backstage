@@ -5,6 +5,7 @@
     </div>
     <transition name="silde-open">
       <div class="left-container">
+        <!-- 左侧菜单缩放 -->
         <el-button
           type="text"
           size="nimi"
@@ -15,9 +16,13 @@
         ></el-button>
       </div>
     </transition>
+    <!-- 刷新 -->
+    <el-tooltip content="刷新" placement="bottom">
+      <i class="el-icon-refresh refresh" @click="refresh"></i>
+    </el-tooltip>
     <div class="right-container">
       <el-tooltip effect="dark" content="全屏" placement="bottom">
-        <i class="el-icon-full-screen"></i>
+        <i class="el-icon-full-screen" :class="dark"></i>
       </el-tooltip>
       <!-- 头像 -->
       <el-avatar
@@ -28,9 +33,10 @@
         "
       ></el-avatar>
       <transition name="silde-open">
+        <!-- 下拉菜单 -->
         <el-dropdown @command="handleCommand">
-          <span class="el-dropdown-link hand">
-            {{ $store.getters.userinfo.username || '' }}admin
+          <span class="el-dropdown-link">
+            {{ this.$store.getters.userinfo.username || '' }}admin
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -42,23 +48,44 @@
         </el-dropdown>
       </transition>
     </div>
+    <!--    修改密码抽屉-->
     <transition name="silde">
       <div class="my-mask" v-show="show">
         <div class="title">
           <span>修改密码</span><span @click="show = false">X</span>
         </div>
-        <el-form>
-          <el-form-item label="旧密码" prop="name">
-            <el-input></el-input>
+        <el-form
+          ref="formRef"
+          :model="editPasswordFormModel"
+          :rules="rules"
+          label-width="100px"
+        >
+          <el-form-item label="旧密码" prop="oldPassword">
+            <el-input
+              v-model.trim="editPasswordFormModel.oldPassword"
+              placeholder="请输入旧密码"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="新密码" prop="name">
-            <el-input></el-input>
+          <el-form-item label="新密码" prop="newPassword">
+            <el-input
+              v-model="editPasswordFormModel.newPassword"
+              placeholder="请输入新密码"
+              show-password
+              type="password"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="确认密码" prop="name">
-            <el-input></el-input>
+          <el-form-item label="确认密码" prop="confirmPassword">
+            <el-input
+              v-model="editPasswordFormModel.confirmPassword"
+              placeholder="请输入确认密码"
+              show-password
+              type="password"
+            ></el-input>
           </el-form-item>
           <div class="footer">
-            <el-button type="primary" size="small">提交</el-button>
+            <el-button type="primary" size="small" @click="handleSubmit"
+              >提交</el-button
+            >
             <el-button type="text" @click="show = false" size="small"
               >取消</el-button
             >
@@ -70,32 +97,103 @@
 </template>
 
 <script>
+import { Notification } from '../../utils/Notification'
 export default {
   name: 'sysheader',
   data() {
     return {
       list: [],
-      show: false
+      show: false,
+      editPasswordFormModel: {
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      },
+      // 验证规则
+      rules: {
+        oldPassword: [
+          {
+            required: true,
+            trigger: 'blur',
+            message: '旧密码不能为空'
+          }
+        ],
+        newPassword: [
+          {
+            required: true,
+            message: '新密码不能为空',
+            trigger: 'blur'
+          }
+        ],
+        confirmPassword: [
+          {
+            required: true,
+            trigger: 'blur',
+            validator: (rule, value, callback) => {
+              if (value === '') {
+                callback(new Error('确认密码不能为空'))
+              } else if (value !== this.editPasswordFormModel.newPassword) {
+                callback(new Error('两次输入密码不一致!'))
+              } else {
+                callback()
+              }
+            }
+          }
+        ]
+      }
     }
   },
-  computed: {},
+  computed: {
+    // 用户信息
+    userinfo() {
+      console.log(this.$store.getters.userInfo)
+      return this.$store.getters.userInfo
+    }
+  },
   mounted() {},
   methods: {
     // 退出登录
     async handleLogout() {
-      const res = await this.$store.dispatch('user/logout')
-      // console.log(res)
-      if (res) {
-        this.$notify.success({
-          title: '提示',
-          message: '您已成功退出登录'
+      this.$confirm('是否要退出登录？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          const res = this.$store.dispatch('user/logout')
+          // console.log(res)
+          if (res) {
+            this.$notify.success({
+              title: '提示',
+              message: '您已成功退出登录'
+            })
+          }
+          this.$router.push('/login')
         })
-        this.$router.push('/login')
-      }
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     },
-    // 修改密码
+    // 刷新页面
+    refresh() {
+      window.location.reload()
+    },
+    // 修改密码模态框
     handleEditpassword() {
       this.show = true
+    },
+    // 修改密码
+    async handleSubmit() {
+      try {
+        await this.$refs.formRef.validate()
+        Notification('修改密码', '', 'success')
+        // drawer.value = false
+      } catch (e) {
+        console.log(e)
+      }
     },
     handleCommand(command) {
       switch (command) {
@@ -225,20 +323,54 @@ export default {
     font-size: 20px;
     line-height: 60px;
   }
+  .refresh {
+    font-size: 18px;
+    color: #fff;
+    width: 42px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: normal;
+    justify-content: center;
+    cursor: pointer;
+  }
   .left-container {
     display: flex;
     align-items: center;
     .el-button {
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px;
       color: #fff;
+      width: 42px;
+      height: 100%;
     }
   }
   .right-container {
-    display: flex;
-    align-items: center;
+    position: absolute;
+    right: 0;
+    top: 0;
     height: 100%;
-    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .el-dropdown {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 15px;
+      color: #fff;
+      padding: 0 15px;
+      .el-avatar--circle {
+        margin-left: 15px;
+      }
+    }
+    .el-dropdown-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 15px;
+    }
     ::v-deep .el-icon-full-screen {
       font-size: 16px;
       cursor: pointer;

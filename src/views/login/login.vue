@@ -76,7 +76,7 @@ export default {
         password: [{ validator: validatePass, trigger: 'blur' }]
       },
       // loading加载状态
-      loadingStatus: true
+      loadingStatus: false
     }
   },
   created() {},

@@ -22,13 +22,15 @@
 <script>
 import userApi from '@/api/userApi'
 import menuprops from './menuprops'
+import { getParentRouter, getMenus } from '../../utils/menu.js'
 export default {
   name: 'sysmenu',
   data() {
     return {
       routerList: [],
       token: '',
-      userInfo: []
+      userInfo: [],
+      menuList: []
     }
   },
   created() {
@@ -48,6 +50,8 @@ export default {
   mounted() {},
   methods: {
     async setmenuList() {
+      this.menuList = getMenus(getParentRouter(this.$router.options.routes))
+      console.log(this.menuList, 'menuList')
       this.token = this.$store.getters.token
       // console.log(this.token)
       const res = await userApi.router(this.token)
