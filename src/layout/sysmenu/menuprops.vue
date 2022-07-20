@@ -1,13 +1,13 @@
 <template>
-    <el-submenu index="1">
-      <template slot="title">
+    <el-submenu :index="item.icon">
+      <template slot="title" >
         <i :class="'el-icon-' + item.icon"></i> <span>{{ item.name }}</span>
       </template>
       <el-menu-item-group
         v-for="(SubItem, SubIndex) in item.child"
         :key="SubIndex"
       >
-        <el-menu-item :class="'el-icon-' + SubItem.icon" index="2">{{
+        <el-menu-item :class="'el-icon-' + SubItem.icon" :index="SubItem.icon">{{
           SubItem.name
         }}</el-menu-item>
       </el-menu-item-group>

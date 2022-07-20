@@ -22,7 +22,34 @@ const publicRoutes = [
     path: '/',
     name: 'layout',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../layout/index.vue')
+      import(/* webpackChunkName: "about" */ '../layout/index.vue'),
+    children: [
+      {
+        path: '/home-filled',
+        name: 'home-filled',
+        component: () => import('../publicRouter/panel/controlbooth.vue')
+      },
+      {
+        path: '/shopping-cart-full',
+        name: 'shopping-cart-full',
+        component: () => import('../publicRouter/goods/goods.vue')
+      },
+      {
+        path: '/menu',
+        name: 'menu',
+        component: () => import('../publicRouter/goods/category.vue')
+      },
+      {
+        path: '/aim',
+        name: 'aim',
+        component: () => import('../publicRouter/goods/skus.vue')
+      },
+      {
+        path: '/postcard',
+        name: 'postcard',
+        component: () => import('../publicRouter/goods/coupon.vue')
+      }
+    ]
   }
 ]
 const privateRouter = [

@@ -1,12 +1,10 @@
 <template>
-  <div class="css">
-    <router-view></router-view>
-  </div>
+  <div class="">会员等级</div>
 </template>
 
 <script>
 export default {
-  name: 'sysmain',
+  name: 'level',
   data() {
     return {}
   },

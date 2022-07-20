@@ -4,8 +4,8 @@ export default {
   // 开启命名空间
   namespaced: true,
   state: {
-    token: getItem('token') || [],
-    userinfo: getItem('userinfo') || []
+    token: getItem('token') || []
+    // userinfo: getItem('userinfo') || []
   },
   mutations: {
     SET_LOGIN(state, token) {
@@ -19,7 +19,7 @@ export default {
       state.userInfo = userInfo
       console.log(state.userInfo)
       // 将用户信息存到vuex
-      setItem('userInfo', userInfo)
+      // setItem('userInfo', userInfo)
       return userInfo
     }
   },

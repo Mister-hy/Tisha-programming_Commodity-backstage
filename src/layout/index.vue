@@ -5,7 +5,12 @@
     </el-header>
     <el-container>
       <el-aside width="250px"><sysmenu></sysmenu></el-aside>
-      <el-main><sysmain></sysmain></el-main>
+      <el-main
+        :style="{
+          marginLeft: this.$store.getters.isCollapse ? '64px' : '250px'
+        }"
+        ><sysmain></sysmain
+      ></el-main>
     </el-container>
   </el-container>
 </template>

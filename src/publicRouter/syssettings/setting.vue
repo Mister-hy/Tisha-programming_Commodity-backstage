@@ -1,12 +1,10 @@
 <template>
-  <div class="css">
-    <router-view></router-view>
-  </div>
+    <div class=''>基础设置</div>
 </template>
 
 <script>
 export default {
-  name: 'sysmain',
+  name: 'setting',
   data() {
     return {}
   },
@@ -16,4 +14,6 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang='scss'>
+
+</style>

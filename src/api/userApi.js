@@ -44,9 +44,20 @@ const logout = () => {
     method: 'POST'
   })
 }
+/**
+ * 支付订单
+ * @returns {AxiosPromise}
+ */
+const order = () => {
+  return request({
+    url: '/admin/statistics1',
+    method: 'GET'
+  })
+}
 export default {
   login,
   router,
   getUserInfo,
-  logout
+  logout,
+  order
 }

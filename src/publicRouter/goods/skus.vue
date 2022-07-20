@@ -1,12 +1,10 @@
 <template>
-  <div class="css">
-    <router-view></router-view>
-  </div>
+  <div class="">规格管理</div>
 </template>
 
 <script>
 export default {
-  name: 'sysmain',
+  name: 'skus',
   data() {
     return {}
   },

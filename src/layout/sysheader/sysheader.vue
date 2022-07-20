@@ -22,7 +22,10 @@
     </el-tooltip>
     <div class="right-container">
       <el-tooltip effect="dark" content="全屏" placement="bottom">
-        <i class="el-icon-full-screen" :class="dark"></i>
+        <i
+          :class="isFullscreen ? 'el-icon-full-screen' : 'el-icon-aim'"
+          @click="changeFullScreen"
+        ></i>
       </el-tooltip>
       <!-- 头像 -->
       <el-avatar
@@ -36,7 +39,7 @@
         <!-- 下拉菜单 -->
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
-            {{ this.$store.getters.userinfo.username || '' }}admin
+           admin
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -97,7 +100,8 @@
 </template>
 
 <script>
-import { Notification } from '../../utils/Notification'
+import Notification from '../../utils/Notification'
+import screenfull from '../../../node_modules/screenfull'
 export default {
   name: 'sysheader',
   data() {
@@ -140,7 +144,8 @@ export default {
             }
           }
         ]
-      }
+      },
+      isFullscreen: true
     }
   },
   computed: {
@@ -189,7 +194,9 @@ export default {
     async handleSubmit() {
       try {
         await this.$refs.formRef.validate()
-        Notification('修改密码', '', 'success')
+        Notification.ElNotification('修改密码', '', 'success')
+        // alert(1)
+        this.show = false
         // drawer.value = false
       } catch (e) {
         console.log(e)
@@ -209,9 +216,20 @@ export default {
     // 折叠
     CollapseStatus() {
       this.$store.dispatch('menu/setCollapse')
+    },
+    // 全屏切换
+    changeFullScreen() {
+      // node_modules/screenfull
+      screenfull.toggle()
+      this.$nextTick(() => {
+        this.isFullscreen = screenfull.isFullscreen
+      })
     }
   },
-  components: {}
+  components: {},
+  created() {
+    // window.location.reload()
+  }
 }
 </script>
 

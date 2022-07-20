@@ -1,12 +1,9 @@
 <template>
-  <div class="css">
-    <router-view></router-view>
-  </div>
+  <div class="">商品管理</div>
 </template>
 
 <script>
 export default {
-  name: 'sysmain',
   data() {
     return {}
   },

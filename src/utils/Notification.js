@@ -1,8 +1,8 @@
-import { ElNotification } from 'element-ui'
+import { Notification } from 'element-ui'
 
-const Notification = (title, message, type) => {
-  ElNotification({ title, message, type })
+const ElNotification = (title, message, type) => {
+  Notification({ title, message, type })
 }
 export default {
-  Notification
+  ElNotification
 }

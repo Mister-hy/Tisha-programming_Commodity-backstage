@@ -1,12 +1,10 @@
 <template>
-  <div class="css">
-    <router-view></router-view>
-  </div>
+  <div class="">图库管理</div>
 </template>
 
 <script>
 export default {
-  name: 'sysmain',
+  name: 'image',
   data() {
     return {}
   },

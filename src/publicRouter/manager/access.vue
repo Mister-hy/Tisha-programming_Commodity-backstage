@@ -1,12 +1,10 @@
 <template>
-  <div class="css">
-    <router-view></router-view>
-  </div>
+  <div class="">权限管理</div>
 </template>
 
 <script>
 export default {
-  name: 'sysmain',
+  name: 'access',
   data() {
     return {}
   },
