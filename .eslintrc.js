@@ -15,6 +15,6 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'vue/no-parsing-error': 'off',
     'vue/valid-template-root': 'off',
-    'vue/return-in-computed-property': 'off'
+    'vue/return-in-computed-property': 'off',
   }
 }

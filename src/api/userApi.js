@@ -54,6 +54,7 @@ const order = () => {
     method: 'GET'
   })
 }
+
 export default {
   login,
   router,

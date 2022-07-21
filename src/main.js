@@ -7,6 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './flexible'
 import './styles/reset.scss'
 // import './promission'
+import './utils/flexible'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 

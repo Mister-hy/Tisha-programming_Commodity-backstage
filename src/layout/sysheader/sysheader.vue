@@ -39,7 +39,7 @@
         <!-- 下拉菜单 -->
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
-           admin
+            admin
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -252,7 +252,7 @@ export default {
   --tw-text-opacity: 1;
   color: rgba(253, 253, 253, var(--tw-text-opacity));
   height: 60px;
-  z-index: 1000;
+  // z-index: 1000;
   .silde-enter-from,
   .silde-leave-to {
     transform: translate(+100%);

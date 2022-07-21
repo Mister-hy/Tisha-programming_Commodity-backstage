@@ -7,7 +7,7 @@
     active-text-color="#4339c8"
     :collapse="isCollapse"
     :collapse-transition="false"
-    :style="{ width: $store.getters.isCollapse ? '64px' : '200px' }"
+    :style="{ width: $store.getters.isCollapse ? '64px' : '250px' }"
     unique-opened
     router
   >

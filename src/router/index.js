@@ -41,7 +41,7 @@ const publicRoutes = [
       },
       {
         path: '/aim',
-        name: 'aim',
+        name: 'skus',
         component: () => import('../publicRouter/goods/skus.vue')
       },
       {

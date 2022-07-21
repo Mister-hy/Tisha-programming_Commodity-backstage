@@ -7,7 +7,7 @@
       <el-aside width="250px"><sysmenu></sysmenu></el-aside>
       <el-main
         :style="{
-          marginLeft: this.$store.getters.isCollapse ? '64px' : '250px'
+          paddingLeft: this.$store.getters.isCollapse ? '0px' : '64px'
         }"
         ><sysmain></sysmain
       ></el-main>
