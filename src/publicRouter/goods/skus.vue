@@ -28,7 +28,6 @@
         ref="multipleTable"
         :data="skusList"
         tooltip-effect="dark"
-        style="width: 100%"
         v-loading="loading"
         stripe
       >
@@ -349,6 +348,10 @@ export default {
 .silde-open-enter-active,
 .silde-open-leave-active {
   transition: all 0.3s linear;
+}
+.skus_header {
+  padding: 20px;
+  box-sizing: border-box;
 }
 .my-mask,
 .my-mask-colors {

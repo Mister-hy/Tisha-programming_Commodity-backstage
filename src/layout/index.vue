@@ -34,4 +34,7 @@ export default {
 .el-container {
   height: 100%;
 }
+.el-main {
+  background-color: #e9eef3;
+}
 </style>
