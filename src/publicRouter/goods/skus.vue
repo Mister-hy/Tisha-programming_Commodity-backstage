@@ -52,8 +52,12 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" width="250" class="cell">
-          <template v-solt="scope">
-            <div class="operation"><span>修改</span><span>删除</span></div>
+          <template slot-scope="scope">
+            <div class="operation">
+              <span>修改</span>
+
+              <span slot="reference" @click="remove(scope.row.id)">删除</span>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -112,7 +116,7 @@
             >
             <el-input
               v-if="inputShow"
-              v-model="AddskusIpi"
+              v-model="Addskus.default"
               @keyup.enter.native="inputEnter()"
               @blur="inputEnter"
               class="inputRef"
@@ -147,21 +151,19 @@ export default {
       total: 0,
       // 新增模态框
       Addshow: false,
-      AddskusIpi: '',
       // 新增form数据
       Addskus: {
         name: '',
         order: 50,
         status: '',
-        default: []
+        default: ''
       },
       // 新增tag数据
       tagList: [],
       // 新增form校验
       Addrules: {
         name: [
-          { required: true, message: '规格名称不能为空', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '规格名称不能为空', trigger: 'blur' }
         ],
         default: [
           {
@@ -169,14 +171,12 @@ export default {
             message: '规格值不能会空',
             trigger: 'blur'
           }
-          // {
-          //   min: this.tagList.length === 1,
-          //   trigger: 'blur'
-          // }
         ]
       },
       // 控制expand展开行输入框的显示隐藏
-      inputShow: false
+      inputShow: false,
+      // 删除传的ids数组
+      ids: []
     }
   },
   created() {
@@ -192,7 +192,7 @@ export default {
     async setSkus() {
       const res = await goods.skus()
       this.skusList = res.data.data.list
-      // console.log(this.skusList)
+      console.log(this.skusList)
       this.total = res.data.data.totalCount
       // console.log(this.total)
     },
@@ -240,19 +240,15 @@ export default {
     },
     // 文本框失去焦点,或者按下Enter触发
     inputEnter() {
-      this.Addskus.default.push(this.AddskusIpi)
-      console.log(this.Addskus.default)
-      const str = this.Addskus.default.join()
-      this.tagList.push(str)
-      if (this.Addskus.default.length === 0) {
+      if (this.Addskus.default.trim().length === 0) {
         this.inputShow = false
         this.Addskus.default = ''
         return false
       }
 
-      // this.tagList.push(this.Addskus.default.trim())
+      this.tagList.push(this.Addskus.default.trim())
       this.inputShow = false
-      this.Addskus.default = ''
+      // this.Addskus.default = ''
     },
     // 删除tabs标签
     tabRemove(i) {
@@ -271,8 +267,41 @@ export default {
       this.$refs.formRef.validate(async (valid) => {
         if (!valid) return false
         const res = await goods.skusAdd(this.Addskus)
-        console.log(res)
+        this.loadingAnimation()
+        this.$notify({
+          title: '提示',
+          message: '添加成功',
+          type: 'success'
+        })
+        this.Addshow = false
+        this.skusList.push(res.data.data)
       })
+    },
+    // 单个删除
+    remove(id) {
+      this.ids.push(id)
+      this.$confirm('是否要删除该规格？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.skusList.forEach((item, i) => {
+            if (item.id === id) {
+              this.skusList.splice(i, 1)
+            }
+          })
+          this.this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     }
   },
   components: {

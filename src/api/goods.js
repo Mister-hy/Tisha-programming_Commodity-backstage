@@ -30,8 +30,20 @@ const skusAdd = (data) => {
     data
   })
 }
+/**
+ * 单个删除
+ * @returns {AxiosPromise}
+ */
+const deleteAll = (data) => {
+  return request({
+    url: `/admin/skus/delete_all?ids=${data.ids}`,
+    method: 'POST',
+    data
+  })
+}
 export default {
   skus,
   pagination,
-  skusAdd
+  skusAdd,
+  deleteAll
 }

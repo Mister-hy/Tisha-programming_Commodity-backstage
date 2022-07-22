@@ -2,7 +2,7 @@
   <div class="home-filled">
     <div class="statistics1">
       <ul class="uu">
-        <li v-for="(item, index) in orderList" :key="index">
+        <li class="li" v-for="(item, index) in panels" :key="index">
           <p>
             {{ item.title
             }}<el-button :type="item.unitColor">{{ item.unit }}</el-button>
@@ -11,37 +11,63 @@
           <div>
             <h1>{{ item.value }}</h1>
             <span
-              >{{ item.subTitle }}<u>{{ item.subValue }}</u></span
-            >
+              >{{ item.subTitle }} <u>{{ item.subValue }}</u>
+            </span>
           </div>
         </li>
       </ul>
+    </div>
+
+    <div class="tab">
+      <ul class="uu1">
+        <li v-for="(SubItem, SubIndex) in List" :key="SubIndex" class="lis">
+          <div>
+            <i
+              :style="`color:${SubItem.clock}`"
+              :class="'el-icon-' + SubItem.icon"
+            ></i>
+
+            <p>{{ SubItem.name }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="three">
+      <div class="Left"></div>
+
+      <div class="right"></div>
     </div>
   </div>
 </template>
 
 <script>
-import userApi from '../../api/userApi'
+import { GetStat } from '@/api/userApi'
+import GetList from './controboo.json'
+
 export default {
-  // name:'Roles',
   data() {
     return {
-      orderList: []
+      panels: {},
+      List: {}
     }
   }, // 计算属性
   computed: {}, // 载入后生命周期函数
   mounted() {}, // 监听属性
   watch: {}, // 使用data属性里面的方法
   methods: {
-    async GetOrder() {
-      const res = await userApi.order()
-      this.orderList = res.data.data.panels
-      console.log(this.orderList)
+    async GetData() {
+      const res = await GetStat()
+      this.panels = res.data.data.panels
+    },
+    async GetListS() {
+      this.List = await GetList.users
+      console.log(this.List)
     }
   }, // 创建后
   created() {
-    this.GetOrder()
-    // console.log(this.GetOrder())
+    console.log(this.GetData())
+    console.log(this.GetListS())
   }
 }
 </script>
@@ -52,7 +78,7 @@ export default {
   display: flex;
   justify-content: space-around;
   box-sizing: border-box;
-  li {
+  .li {
     width: 23%;
     height: 176px;
     // border: 1px solid red;
@@ -84,11 +110,41 @@ export default {
         justify-content: space-between;
         line-height: 44px;
         font-size: 14px;
+        u {
+          text-decoration: none;
+        }
       }
     }
   }
-  u {
-    text-decoration: none;
+}
+.tab {
+  width: 100%;
+  .uu1 {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    .lis {
+      width: 10%;
+      // border: 1px solid #cfcfcf;
+      border-radius: 3px;
+      text-align: center;
+      background-color: #fff;
+      height: 77px;
+      div {
+        margin-top: 19px;
+        i {
+          margin-bottom: 8px;
+        }
+      }
+    }
   }
+}
+.three {
+  width: 100%;
+  // border: 1px solid red;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
 }
 </style>

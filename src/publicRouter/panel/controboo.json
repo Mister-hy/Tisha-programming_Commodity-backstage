@@ -1,0 +1,43 @@
+{
+  "users": [
+    {
+      "name": "用户",
+      "icon": "user",
+      "clock": "#0ea5e9"
+    },
+    {
+      "name": "商品",
+      "icon": "shopping-cart-2",
+      "clock": "#8b5cf6"
+    },
+    {
+      "name": "订单",
+      "icon": "tickets",
+      "clock": "#e374f3"
+    },
+    {
+      "name": "评价",
+      "icon": "s-comment",
+      "clock": "#14b8a6"
+    },
+    {
+      "name": "图库",
+      "icon": "picture-outline",
+      "clock": "#f43f5e"
+    },
+    {
+      "name": "公告",
+      "icon": "bell",
+      "clock": "#14b8a6"
+    },
+    {
+      "name": "配置",
+      "icon": "set-up"
+    },
+    {
+      "name": "优惠劵",
+      "icon": "wallet",
+      "clock": "#f8b648"
+    }
+  ]
+}

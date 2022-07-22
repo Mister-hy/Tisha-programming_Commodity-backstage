@@ -48,17 +48,17 @@ const logout = () => {
  * 支付订单
  * @returns {AxiosPromise}
  */
-const order = () => {
-  return request({
-    url: '/admin/statistics1',
-    method: 'GET'
-  })
+export const GetStat = () => {
+  return request({ url: '/admin/statistics1', method: 'GET' })
+}
+
+export const GetTab = (all) => {
+  return request({ url: `admin/goods/1?tab=${all}`, method: 'GET' })
 }
 
 export default {
   login,
   router,
   getUserInfo,
-  logout,
-  order
+  logout
 }
