@@ -4,11 +4,10 @@
       <sysheader></sysheader>
     </el-header>
     <el-container>
-      <el-aside width="250px"><sysmenu></sysmenu></el-aside>
-      <el-main
-        :style="{
-          paddingLeft: this.$store.getters.isCollapse ? '0px' : '0px'
-        }"
+      <el-aside :width="isCollapse ? '64px' : '250px'"
+        ><sysmenu></sysmenu
+      ></el-aside>
+      <el-main :style="{ marginLeft: isCollapse ? '-35px' : '-30px' }"
         ><sysmain></sysmain
       ></el-main>
     </el-container>
@@ -26,7 +25,12 @@ export default {
   },
   mounted() {},
   methods: {},
-  components: { sysheader, sysmenu, sysmain }
+  components: { sysheader, sysmenu, sysmain },
+  computed: {
+    isCollapse() {
+      return this.$store.getters.isCollapse
+    }
+  }
 }
 </script>
 
@@ -37,4 +41,7 @@ export default {
 .el-main {
   background-color: #e9eef3;
 }
+// .el-aside {
+//   overflow-y: auto;
+// }
 </style>

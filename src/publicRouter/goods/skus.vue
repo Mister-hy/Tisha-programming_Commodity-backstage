@@ -290,6 +290,7 @@ export default {
               this.skusList.splice(i, 1)
             }
           })
+          console.log(1)
           this.this.$message({
             type: 'success',
             message: '删除成功!'
@@ -300,6 +301,7 @@ export default {
             type: 'info',
             message: '已取消删除'
           })
+          console.log(2)
         })
     }
   },

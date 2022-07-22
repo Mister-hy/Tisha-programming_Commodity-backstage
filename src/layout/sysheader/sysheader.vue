@@ -215,7 +215,8 @@ export default {
     },
     // 折叠
     CollapseStatus() {
-      this.$store.dispatch('menu/setCollapse')
+      // this.$store.dispatch('menu/setCollapse')
+      this.$store.commit('menu/SET_COllAPSE')
     },
     // 全屏切换
     changeFullScreen() {

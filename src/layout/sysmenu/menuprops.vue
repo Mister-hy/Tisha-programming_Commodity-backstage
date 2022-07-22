@@ -1,17 +1,31 @@
 <template>
+  <el-menu
+    :default-active="activePath"
+    class="el-menu-vertical-demo"
+    text-color="#000"
+    background-color="#fff"
+    active-text-color="#4339c8"
+    :collapse="isCollapse"
+    :collapse-transition="false"
+    unique-opened
+    router
+  >
     <el-submenu :index="item.icon">
-      <template slot="title" >
+      <template slot="title">
         <i :class="'el-icon-' + item.icon"></i> <span>{{ item.name }}</span>
       </template>
       <el-menu-item-group
         v-for="(SubItem, SubIndex) in item.child"
         :key="SubIndex"
       >
-        <el-menu-item :class="'el-icon-' + SubItem.icon" :index="SubItem.icon">{{
-          SubItem.name
-        }}</el-menu-item>
+        <el-menu-item
+          :class="'el-icon-' + SubItem.icon"
+          :index="SubItem.icon"
+          >{{ SubItem.name }}</el-menu-item
+        >
       </el-menu-item-group>
-    </el-submenu>
+    </el-submenu></el-menu
+  >
 </template>
 
 <script>
