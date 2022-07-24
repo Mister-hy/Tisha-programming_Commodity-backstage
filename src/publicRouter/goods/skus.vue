@@ -6,7 +6,27 @@
         <Hybutton type="primary" size="mini" class="add" @click="skusAdd"
           >新增</Hybutton
         >
-        <Hybutton type="warning" size="mini">批量删除</Hybutton>
+        <el-popover placement="top" width="160" v-model="visibleBatchDelete">
+          <p>这是一段内容这是一段内容确定删除吗？</p>
+          <div style="text-align: right; margin: 0">
+            <el-button
+              size="mini"
+              type="text"
+              @click="visibleBatchDelete = false"
+              >取消</el-button
+            >
+            <el-button type="primary" size="mini" @click="batchDelete"
+              >确定</el-button
+            >
+          </div>
+          <Hybutton
+            type="warning"
+            size="mini"
+            slot="reference"
+            @click="visibleBatchDelete = true"
+            >批量删除</Hybutton
+          >
+        </el-popover>
       </div>
       <div class="skus_right">
         <el-tooltip
@@ -29,6 +49,7 @@
         :data="skusList"
         tooltip-effect="dark"
         v-loading="loading"
+        @selection-change="handleSelectionChange"
         stripe
       >
         <el-table-column type="selection" width="55"> </el-table-column>
@@ -121,7 +142,7 @@
               class="inputRef"
               ref="inputRef"
             ></el-input>
-            <el-button v-else size="small" @click="inputShowSave"
+            <el-button v-else size="small" @click="this.inputShow = true"
               >+ 添加值</el-button
             >
           </el-form-item>
@@ -175,7 +196,9 @@ export default {
       // 控制expand展开行输入框的显示隐藏
       inputShow: false,
       // 删除传的ids数组
-      ids: []
+      ids: [],
+      // 批量删除模态框
+      visibleBatchDelete: false
     }
   },
   created() {
@@ -228,15 +251,6 @@ export default {
       }
     },
     // 点击显示input框
-    inputShowSave() {
-      this.inputShow = true
-      // this.$nextTick((callback) => {
-      // this.$refs.inputRef.focus()
-      // const inputRef = document.querySelector('.inputRef')
-      // console.log(inputRef)
-      // console.log(this.$refs.inputRef)
-      // })
-    },
     // 文本框失去焦点,或者按下Enter触发
     inputEnter() {
       if (this.Addskus.default.trim().length === 0) {
@@ -276,33 +290,48 @@ export default {
         this.skusList.push(res.data.data)
       })
     },
+    handleSelectionChange(val) {
+      // console.log(1)
+      this.selectedList = []
+      val.forEach((item) => {
+        if ((this.ids = item.id)) {
+          this.selectedList.push(item)
+        }
+      })
+      console.log(this.selectedList)
+    },
+    // 批量删除
+    batchDelete() {
+      // 把所有的数据过滤
+      this.skusList = this.skusList.filter((item) => {
+        return this.selectedList.includes(item) === false
+      })
+      this.visibleBatchDelete = false
+      this.$notify({
+        title: '成功',
+        message: '选中删除成功',
+        type: 'success'
+      })
+      this.setSkus()
+      this.setPagination()
+    },
     // 单个删除
-    remove(id) {
-      this.ids.push(id)
-      this.$confirm('是否要删除该规格？', '提示', {
+    async remove(id) {
+      const confirmResult = await this.$confirm('是否要删除该规格？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      })
-        .then(() => {
-          this.skusList.forEach((item, i) => {
-            if (item.id === id) {
-              this.skusList.splice(i, 1)
-            }
-          })
-          console.log(1)
-          this.this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
-          console.log(2)
-        })
+      }).catch((err) => err)
+      if (confirmResult !== 'confirm') {
+        return this.$message.info('已取消删除')
+      }
+      this.ids.push(id)
+      if (this.ids.length <= 0) {
+        return this.$message.info('删除失败')
+      }
+      this.$message.success('删除成功！')
+      this.setSkus()
+      this.setPagination()
     }
   },
   components: {

@@ -34,14 +34,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.el-container {
-  height: 100%;
-}
-.el-main {
-  background-color: #e9eef3;
-}
-// .el-aside {
-//   overflow-y: auto;
-// }
-</style>
+<style lang="scss" scoped></style>

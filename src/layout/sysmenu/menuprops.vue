@@ -1,12 +1,9 @@
 <template>
   <el-menu
-    :default-active="activePath"
     class="el-menu-vertical-demo"
     text-color="#000"
     background-color="#fff"
     active-text-color="#4339c8"
-    :collapse="isCollapse"
-    :collapse-transition="false"
     unique-opened
     router
   >
